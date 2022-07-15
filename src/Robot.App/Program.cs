@@ -18,6 +18,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         .AddTransient<ICommandRunner, CommandRunner>()
         .AddTransient<IPlaceValidation, PlaceValidation>()
         .AddTransient<IMoveValidation, MoveValidation>()
+        .AddTransient<IObstructValidation, ObstructValidation>()
         .AddTransient<ICommandValidation, CommandValidation>()
         .AddHostedService<Worker>();
     })
