@@ -9,28 +9,35 @@ namespace Robot.Core.Validations
     {
         public bool IsValid(string[] args, RobotState robotState)
         {
-            bool valid = true;
-
+            bool canMove = true;
+            bool hasObstruction = false;
+            
             switch (robotState.Location.Direction)
             {
                 case DirectionEnum.North:
-                    valid = robotState.Location.YAxis + Constants.MOVE_VALUE <= robotState.SurfaceDimension.MaxTopMovement;
+                    canMove = robotState.Location.YAxis + Constants.MOVE_VALUE <= robotState.SurfaceDimension.MaxTopMovement;
+                    hasObstruction = robotState.SurfaceDimension.Obstructions.Any(x => x.YAxis == (robotState.Location.YAxis + Constants.MOVE_VALUE));
                     break;
                 case DirectionEnum.South:
-                    valid = robotState.Location.YAxis - Constants.MOVE_VALUE >= robotState.SurfaceDimension.MaxBottomMovement;
+                    canMove = robotState.Location.YAxis - Constants.MOVE_VALUE >= robotState.SurfaceDimension.MaxBottomMovement;
+                     hasObstruction = robotState.SurfaceDimension.Obstructions.Any(x => x.YAxis == (robotState.Location.YAxis - Constants.MOVE_VALUE));
                     break;
                 case DirectionEnum.East:
-                    valid = robotState.Location.XAxis + Constants.MOVE_VALUE <= robotState.SurfaceDimension.MaxRightMovement;
+                    canMove = robotState.Location.XAxis + Constants.MOVE_VALUE <= robotState.SurfaceDimension.MaxRightMovement;
+                    hasObstruction = robotState.SurfaceDimension.Obstructions.Any(x => x.XAxis == (robotState.Location.XAxis + Constants.MOVE_VALUE));
                     break;
                 case DirectionEnum.West:
-                    valid = robotState.Location.XAxis - Constants.MOVE_VALUE >= robotState.SurfaceDimension.MaxLeftMovement;
+                    canMove = robotState.Location.XAxis - Constants.MOVE_VALUE >= robotState.SurfaceDimension.MaxLeftMovement;
+                    hasObstruction = robotState.SurfaceDimension.Obstructions.Any(x => x.XAxis == (robotState.Location.XAxis - Constants.MOVE_VALUE));
                     break;
             }
 
-            if (!valid)
+            if (!canMove)
                 throw new InvalidCommandException(Constants.MESSAGE_CANNOT_MOVE);
+            if (hasObstruction)
+                throw new InvalidCommandException(Constants.MESSAGE_CANNOT_MOVE_OBSTRUCT);
 
-            return valid;
+            return canMove && !hasObstruction;
         }
     }
 }

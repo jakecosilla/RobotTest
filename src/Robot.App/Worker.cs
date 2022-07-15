@@ -27,9 +27,9 @@ namespace Robot.App
             {
                 try
                 {
+                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                     var command = Console.ReadLine();
                     _commandRunner.Execute(command.Split(), robotState);
-                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                     await Task.Delay(1000, stoppingToken);
                 }
                 catch (WarningException e)

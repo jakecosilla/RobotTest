@@ -59,5 +59,17 @@ namespace Robot.Core.Services
             $"{Constants.REPORT_YAXIS_LABEL}: {robotState.Location.YAxis}\n" +
             $"{Constants.REPORT_DIRECTION_LABEL}: {robotState.Location.Direction}");
         }
+
+        public RobotState Obstruct(string[] args, RobotState robotState)
+        {
+            var obstruction = new Obstruction
+            {
+                XAxis = Convert.ToInt32(args[1]),
+                YAxis = Convert.ToInt32(args[2])
+            };
+            robotState.SurfaceDimension.Obstructions.Add(obstruction);
+            
+            return robotState;
+        }
     }
 }

@@ -8,5 +8,6 @@
         public int MaxBottomMovement { get; set; }
         public int MaxLeftMovement { get; set; }
         public int MaxRightMovement { get; set; }
+        public List<Obstruction> Obstructions { get; set; }
     }
 }

@@ -23,6 +23,7 @@
         public const int DIRECTION_QUARTER_VALUE = 4;
         public const int DIRECTION_ROTATE = 1; // 90 degrees
         public const string MESSAGE_CANNOT_MOVE = "Cannot move further! The robot will fall.";
+        public const string MESSAGE_CANNOT_MOVE_OBSTRUCT = "Cannot move further! There is something there.";
         public const string MESSAGE_NO_COMMAND_EXECUTED = "No command executed.";
         public const string MESSAGE_NOT_VALID_COMMAND = "is not a valid command.";
         public const string MESSAGE_PLACE_COMMAND_REQUIRED = "Place command required before running";
@@ -31,5 +32,7 @@
         public const string MESSAGE_PLACE_INCOMPLETE_ARGUMENTS = "Incomplete place command arguments.";
         public const string MESSAGE_PLACE_INVALID_XAXIS = "Invalid x-axis value";
         public const string MESSAGE_PLACE_INVALID_YAXIS = "Invalid y-axis value";
+        public const string MESSAGE_OBSTRUCT_INCOMPLETE_ARGUMENTS = "Incomplete obsctruct command arguments.";
+        public const string MESSAGE_OBSTRUCT_REQUIRED_PARAMS = "X and Y coordinates are required in place command.";
     }
 }

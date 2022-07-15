@@ -35,6 +35,12 @@ namespace Robot.Core.Interfaces
         RobotState Right(RobotState robotState);
         /// <summary>
         /// Returns the RobotState.
+        /// Add obsctruction in tabletop.
+        /// </summary>
+        /// <param name="robotState">Robot state that will be updated</param>
+        RobotState Obstruct(string[] args, RobotState robotState);
+        /// <summary>
+        /// Returns the RobotState.
         /// Outputs the robot's current location on the tabletop and the direction it is facing.
         /// </summary>
         /// <param name="robotState">Robot state that will be updated</param>

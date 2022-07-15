@@ -2,6 +2,7 @@
 using Robot.Core.Models;
 using Robot.Core.Utils;
 using Robot.Core.Validations;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Robot.Tests.Validations
@@ -22,7 +23,7 @@ namespace Robot.Tests.Validations
                     MaxBottomMovement = -2,
                     MaxRightMovement = 2,
                     MaxLeftMovement = -2,
-
+                    Obstructions = new List<Obstruction>()
                 }
             };
             _moveValidation = new MoveValidation();
@@ -50,6 +51,35 @@ namespace Robot.Tests.Validations
             //Assert
             InvalidCommandException invalidCommandException = Assert.Throws<InvalidCommandException>(isValidAction);
             Assert.Equal(Constants.MESSAGE_CANNOT_MOVE, invalidCommandException.Message);
+        }
+
+        [Theory]
+        [InlineData(1, 1, DirectionEnum.North)]
+        [InlineData(1, -1, DirectionEnum.South)]
+        [InlineData(1, 1, DirectionEnum.East)]
+        [InlineData(-1, 1, DirectionEnum.West)]
+        public void Should_Not_Allow_When_Moving_WithObstruction(int xaxis, int yaxis, DirectionEnum direction)
+        {
+            //Arrange
+            _robotState.Location = new Location()
+            {
+                Direction = direction,
+                XAxis = xaxis,
+                YAxis = yaxis
+            };
+            _robotState.SurfaceDimension.Obstructions.Add(new Obstruction
+            {
+                XAxis = xaxis * 2,
+                YAxis = yaxis * 2
+            });
+            var commandLineArgs = new string[] { "move" };
+
+            //Act
+            void isValidAction() => _moveValidation.IsValid(commandLineArgs, _robotState);
+
+            //Assert
+            InvalidCommandException invalidCommandException = Assert.Throws<InvalidCommandException>(isValidAction);
+            Assert.Equal(Constants.MESSAGE_CANNOT_MOVE_OBSTRUCT, invalidCommandException.Message);
         }
     }
 }
